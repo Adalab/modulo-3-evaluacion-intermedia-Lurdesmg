@@ -1,52 +1,63 @@
 /* SECCIÓN DE IMPORT */
 import '../styles/App.scss';
-import objFriends from '../data/data.json';
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import ls from '../service/localStorage';
 
 function App() {
-  const [data , setData] = useState(objFriends);
-  const [search , setSearch] = useState(ls.get('search' , ''));
-  const [actor , setActor] = useState (ls.get('actor' , ''));
+  const [quotes, setQuotes] = useState(ls.get('quotesInLS', []));
+  const [filterPhrase , setFilterPhrase] = useState();
+  const [filterActor , setFilterActor] = useState('all');
   const [newPhrase , setNewPhrase] = useState ({
     quote: '',
     character: '',
   });
 
-  const renderList = () => {
-    return data
-    .filter((eachActor) => {
-      return eachActor.quote.toLowerCase().includes(search.toLowerCase());
-    })
-    .filter ((eachActor) =>{
-      return eachActor.character.toLowerCase().includes(actor.toLowerCase());
-    })
-    .map((eachActor, i) => (
-      <li className="itemList" key={i}>
-          <p className="phraseActor">{eachActor.quote} - 
-          <span className="nameActor">{eachActor.character}</span></p>
-      </li>
-    ))
-  }
+  useEffect(() =>{
+    if (ls.notIncludes('quotesInLS')) {
+      fetch('https://beta.adalab.es/curso-intensivo-fullstack-recursos/apis/quotes-friends-tv-v1/quotes.json')
+      .then(response => response.json())
+      .then(data => {
+        setQuotes(data);
+        ls.set('quotesInLS' , data);
+      });
+    }
+  }, []);
 
-  const handleFilter = (ev) => {
-    ls.set('search', ev.target.value);
-    setSearch(ev.target.value);
-  }
+  const handleFilterPhrase = (ev) => {
+    setFilterPhrase(ev.target.value)
+  };
 
   const handleFilterActor = (ev) => {
-    ls.set('actor', ev.target.value);
-    setActor(ev.target.value);
-  }
+    setFilterActor(ev.target.value);
+  };
 
-  const handleNewPhrase = (ev) => {
-    setNewPhrase({...newPhrase, [ev.target.id] : ev.target.value});
-  }
+  const renderList = () => {
+    return quotes
+    .filter((oneQuote) => {
+      return oneQuote.quote.toLocaleLowerCase().includes((filterPhrase || '').toLocaleLowerCase());})
+    .filter((oneQuote) => {
+      if(filterActor==='all') {
+        return true;
+      } else {
+        return oneQuote.character === filterActor;
+      }
+    })
+    .map((oneQuote, index) =>(
+      <li className="itemList" key={index}>
+           <p className="phraseActor">{oneQuote.quote} - 
+          <span className="nameActor">{oneQuote.character}</span></p>
+      </li>
+    ));
+  };
 
-  const handleClick = (ev) => {
-    ev.preventDefault();
-    setData([...data, newPhrase]);
-  }
+  // const handleNewPhrase = (ev) => {
+  //   setNewPhrase({...newPhrase, [ev.target.id] : ev.target.value});
+  // }
+
+  // const handleClick = (ev) => {
+  //   ev.preventDefault();
+  //   setData([...data, newPhrase]);
+  // }
   return (
     <div className="App"> 
       <header>
@@ -55,12 +66,12 @@ function App() {
           <fieldset>
             <legend></legend>
             <label htmlFor="name"> Filtrar por frase
-                <input type="text" id='name' onChange={handleFilter} value={search}/>
+                <input name='phrase' type="text" id='name' onInput={handleFilterPhrase} value={filterPhrase}/>
             </label>
             <legend></legend>
             <label htmlFor='actor'> Filtrar por Personaje
-                <select name="character" id="actor" onChange={handleFilterActor} value={actor}>Filtrar por personaje
-                <option disabled selected value="">Todos</option>
+                <select name="character" id="actor" onInput={handleFilterActor} value={filterActor}>Filtrar por personaje
+                <option value="all">Todos</option>
                 <option value="Ross">Ross</option>
                 <option value="Chandler">Chandler</option>
                 <option value="Joey">Joey</option>
@@ -69,11 +80,11 @@ function App() {
                 <option value="Monica">Monica</option>
                 </select>
             </label>
-            <legend></legend>
+            {/* <legend></legend>
             <label htmlFor="name"> Añade una frase nueva:
             <input placeholder='' onChange={handleNewPhrase} value={newPhrase.value}/>
             <input className="new-phrase__btn" type="submit" value="Añadir" onClick={handleClick}/>
-            </label>
+            </label> */}
           </fieldset>
         </form>
         </header>
