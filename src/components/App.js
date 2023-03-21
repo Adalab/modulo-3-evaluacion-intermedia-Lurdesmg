@@ -7,10 +7,10 @@ function App() {
   const [quotes, setQuotes] = useState(ls.get('quotesInLS', []));
   const [filterPhrase , setFilterPhrase] = useState();
   const [filterActor , setFilterActor] = useState('all');
-  const [newPhrase , setNewPhrase] = useState ({
-    quote: '',
-    character: '',
-  });
+  // const [newPhrase , setNewPhrase] = useState ({
+  //   quote: '',
+  //   character: '',
+  // });
 
   useEffect(() =>{
     if (ls.notIncludes('quotesInLS')) {
