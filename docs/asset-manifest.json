@@ -1,12 +1,14 @@
 {
   "files": {
-    "main.css": "./static/css/main.31d6cfe0.css",
-    "main.js": "./static/js/main.f6c98d60.js",
+    "main.css": "./static/css/main.b2145611.css",
+    "main.js": "./static/js/main.c501ef94.js",
+    "static/media/serie-friends.jpg": "./static/media/serie-friends.f450733e7fb07f732815.jpg",
     "index.html": "./index.html",
-    "main.f6c98d60.js.map": "./static/js/main.f6c98d60.js.map"
+    "main.b2145611.css.map": "./static/css/main.b2145611.css.map",
+    "main.c501ef94.js.map": "./static/js/main.c501ef94.js.map"
   },
   "entrypoints": [
-    "static/css/main.31d6cfe0.css",
-    "static/js/main.f6c98d60.js"
+    "static/css/main.b2145611.css",
+    "static/js/main.c501ef94.js"
   ]
 }
