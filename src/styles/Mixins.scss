@@ -1,0 +1,35 @@
+@media all and (min-width: 768px) {
+  .header {
+    height: 100vh;
+    background-position-x: center;
+  }
+  .form {
+    top: 60rem;
+  }
+  .main {
+    padding: 2rem 2rem;
+
+    &__phraseActor {
+      font-size: 1.8rem;
+    }
+    &__nameActor {
+      font-size: 1.8rem;
+    }
+  }
+}
+@media all and (min-width: 1024px) {
+  .header {
+    height: 100vh;
+  }
+
+  .main {
+    padding: 2rem 3rem;
+
+    &__phraseActor {
+      font-size: 2rem;
+    }
+    &__nameActor {
+      font-size: 2rem;
+    }
+  }
+}

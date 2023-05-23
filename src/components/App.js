@@ -1,6 +1,8 @@
 /* SECCIÓN DE IMPORT */
 import '../styles/Reset.scss';
 import '../styles/App.scss';
+import '../styles/Mixins.scss';
+
 import { useState, useEffect } from 'react';
 import ls from '../service/localStorage';
 
