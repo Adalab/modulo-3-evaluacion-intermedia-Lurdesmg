@@ -1,30 +1,31 @@
 /* SECCIÓN DE IMPORT */
+import '../styles/reset.scss';
 import '../styles/App.scss';
-import { useState , useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import ls from '../service/localStorage';
 
 function App() {
   const [quotes, setQuotes] = useState(ls.get('quotesInLS', []));
-  const [filterPhrase , setFilterPhrase] = useState();
-  const [filterActor , setFilterActor] = useState('all');
+  const [filterPhrase, setFilterPhrase] = useState();
+  const [filterActor, setFilterActor] = useState('all');
   // const [newPhrase , setNewPhrase] = useState ({
   //   quote: '',
   //   character: '',
   // });
 
-  useEffect(() =>{
+  useEffect(() => {
     if (ls.notIncludes('quotesInLS')) {
       fetch('https://beta.adalab.es/curso-intensivo-fullstack-recursos/apis/quotes-friends-tv-v1/quotes.json')
-      .then(response => response.json())
-      .then(data => {
-        setQuotes(data);
-        ls.set('quotesInLS' , data);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          setQuotes(data);
+          ls.set('quotesInLS', data);
+        });
     }
   }, []);
 
   const handleFilterPhrase = (ev) => {
-    setFilterPhrase(ev.target.value)
+    setFilterPhrase(ev.target.value);
   };
 
   const handleFilterActor = (ev) => {
@@ -33,21 +34,23 @@ function App() {
 
   const renderList = () => {
     return quotes
-    .filter((oneQuote) => {
-      return oneQuote.quote.toLocaleLowerCase().includes((filterPhrase || '').toLocaleLowerCase());})
-    .filter((oneQuote) => {
-      if(filterActor==='all') {
-        return true;
-      } else {
-        return oneQuote.character === filterActor;
-      }
-    })
-    .map((oneQuote, index) =>(
-      <li className="itemList" key={index}>
-           <p className="phraseActor">{oneQuote.quote} - 
-          <span className="nameActor">{oneQuote.character}</span></p>
-      </li>
-    ));
+      .filter((oneQuote) => {
+        return oneQuote.quote.toLocaleLowerCase().includes((filterPhrase || '').toLocaleLowerCase());
+      })
+      .filter((oneQuote) => {
+        if (filterActor === 'all') {
+          return true;
+        } else {
+          return oneQuote.character === filterActor;
+        }
+      })
+      .map((oneQuote, index) => (
+        <li className="main__itemList" key={index}>
+          <p className="main__phraseActor">
+            {oneQuote.quote} -<span className="main__nameActor">{oneQuote.character}</span>
+          </p>
+        </li>
+      ));
   };
 
   // const handleNewPhrase = (ev) => {
@@ -59,26 +62,55 @@ function App() {
   //   setData([...data, newPhrase]);
   // }
   return (
-    <div className="App"> 
-      <header>
-        <h1 className="title">Frases de Friends</h1>
+    <div className="App">
+      <header className="header">
         <form>
-          <fieldset>
-            <legend></legend>
-            <label htmlFor="name"> Filtrar por frase
-                <input name='phrase' type="text" id='name' onInput={handleFilterPhrase} value={filterPhrase}/>
+          <fieldset className="form">
+            <label className="form__filterPhrase" htmlFor="name">
+              {' '}
+              Filtrar por frase:
+              <input
+                className="form__filterPhrase-input"
+                name="phrase"
+                type="text"
+                id="name"
+                onInput={handleFilterPhrase}
+                value={filterPhrase}
+              />
             </label>
-            <legend></legend>
-            <label htmlFor='actor'> Filtrar por Personaje
-                <select name="character" id="actor" onInput={handleFilterActor} value={filterActor}>Filtrar por personaje
-                <option value="all">Todos</option>
-                <option value="Ross">Ross</option>
-                <option value="Chandler">Chandler</option>
-                <option value="Joey">Joey</option>
-                <option value="Phoebe">Phoebe</option>
-                <option value="Rachel">Rachel</option>
-                <option value="Monica">Monica</option>
-                </select>
+            <label className="form__filterCharacter" htmlFor="actor">
+              {' '}
+              Filtrar por Personaje:
+              <select
+                className="form__filterCharacter-input"
+                name="character"
+                id="actor"
+                onInput={handleFilterActor}
+                value={filterActor}
+              >
+                Filtrar por personaje
+                <option className="form__filterCharacter-option" value="all">
+                  Todos
+                </option>
+                <option className="form__filterCharacter-option" value="Ross">
+                  Ross
+                </option>
+                <option className="form__filterCharacter-option" value="Chandler">
+                  Chandler
+                </option>
+                <option className="form__filterCharacter-option" value="Joey">
+                  Joey
+                </option>
+                <option className="form__filterCharacter-option" value="Phoebe">
+                  Phoebe
+                </option>
+                <option className="form__filterCharacter-option" value="Rachel">
+                  Rachel
+                </option>
+                <option className="form__filterCharacter-option" value="Monica">
+                  Monica
+                </option>
+              </select>
             </label>
             {/* <legend></legend>
             <label htmlFor="name"> Añade una frase nueva:
@@ -87,14 +119,14 @@ function App() {
             </label> */}
           </fieldset>
         </form>
-        </header>
-        <main>
-            <ul>
-                {renderList()}
-            </ul>
-        </main>
-  </div>
-
-   );
+      </header>
+      <main className="main">
+        <ul>{renderList()}</ul>
+      </main>
+      <footer className="footer">
+        <p className="footer__copy">&copy Friends Web made by: Lourdes-mg </p>
+      </footer>
+    </div>
+  );
 }
 export default App;
