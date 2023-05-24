@@ -1,16 +1,15 @@
 /* Aquí van tus estilos */
 .header {
   background-image: url('../images/serie-friends.jpg');
-  background-position-x: center;
-  width: 100%;
+  width: 100vw;
   height: 60vh;
   background-size: cover;
-  background-repeat: no-repeat;
+  //background-repeat: no-repeat;
 }
 
 .form {
   position: relative;
-  top: 35rem;
+  top: 20rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,7 +66,7 @@
 
 .main {
   background: linear-gradient(0deg, rgba(77, 24, 24, 1) 0%, rgba(179, 76, 76, 1) 50%, rgba(77, 24, 24, 1) 100%);
-  padding: 1rem;
+  padding: 1.5rem;
   position: relative;
 
   &__itemList {
